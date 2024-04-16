@@ -1,0 +1,2 @@
+// nesse arquivo, podemos adicionar funcionalidades que serão encorporadas em todo projeto!
+declare module "*.module.css"; // Declarando que todos os arquivos .module.css devem ser considerados como módulos no escopo do projeto
