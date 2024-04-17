@@ -12,6 +12,14 @@ function App() {
 
   const [taskList, setTaskList] =useState<ITask[]>([]);
 
+  const deleteTask = (id: number) => {
+    setTaskList(
+      taskList.filter(task => {
+        return task.id !== id;
+      })
+    );
+  }; // retorna a lista de arrays menos o item que vamos remover
+
   return (
     <div className="App">
         <Header />
@@ -22,7 +30,7 @@ function App() {
           </div>
           <div className='list'>
             <h2>Your tasks:</h2>
-            <TaskList taskList={taskList}/>
+            <TaskList taskList={taskList} handleDelete={deleteTask}/>
           </div>
         </main>
         <Footer />
