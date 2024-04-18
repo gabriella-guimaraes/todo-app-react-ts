@@ -8,26 +8,40 @@ interface Props {
   btnText: string;
   taskList: ITask[];
   setTaskList?: React.Dispatch<React.SetStateAction<ITask[]>>; //alterado o state da lista
+  task?: ITask | null;
+  handleUpdate?(id: number, title: string, difficulty: number): void;
 }
 
-const TaskForm = ({ btnText, taskList, setTaskList }: Props) => {
+const TaskForm = ({ btnText, taskList, setTaskList, task, handleUpdate }: Props) => {
   const [id, setId] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
   const [difficulty, setDifficulty] = useState<number>(0);
 
+  useEffect(() => {
+    if(task) {
+      setId(task.id);
+      setTitle(task.title);
+      setDifficulty(task.difficulty);
+    }
+
+  }, [task])
+
   const addTaskHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const id = Math.floor(Math.random() * 1000); //criando um número de id aleatório
+    if(handleUpdate) {
+      handleUpdate(id, title, difficulty);
+    } else {
+      const id = Math.floor(Math.random() * 1000); //criando um número de id aleatório
 
-    const newTask: ITask = {id, title, difficulty}
-    
-    setTaskList!([...taskList, newTask]); //unindo em um array as tasks + a task criada
-    // colocamos o '!' para sinalizar ao TS que mesmo que o argumento setTaskList seja opcional, sabemos que ele será passado para o componente
-    setTitle("");
-    setDifficulty(0);
+      const newTask: ITask = {id, title, difficulty}
+      
+      setTaskList!([...taskList, newTask]); //unindo em um array as tasks + a task criada
+      // colocamos o '!' para sinalizar ao TS que mesmo que o argumento setTaskList seja opcional, sabemos que ele será passado para o componente
+      setTitle("");
+      setDifficulty(0);
+    }
 
-    console.log(taskList);
   };  
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
